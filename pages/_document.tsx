@@ -1,4 +1,3 @@
-// pages/_document.js
 import Document, { DocumentContext } from "next/document";
 import {ServerStyleSheet} from "styled-components";
 

@@ -15,7 +15,7 @@ const Home: NextPage = () => {
 const StyledHome = styled.section`
   font-size: 10rem;
   font-weight: 400;
-  /* font-family: ${theme.fonts.wotfard}; */
+  
 `;
 
 export default Home;
