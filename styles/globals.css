@@ -122,3 +122,9 @@ body{
   overflow-y: hidden;
   height: 100vh;
 }
+
+
+.grid{
+  grid-template-columns: repeat(var(--cols), var(--gridSize));
+  display: grid;
+}

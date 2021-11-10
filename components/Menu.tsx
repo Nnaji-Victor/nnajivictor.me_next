@@ -8,6 +8,7 @@ import { useMenu } from "@/_hooks/menuContext";
 import { gsap } from "gsap";
 import React from "react";
 import styled from "styled-components";
+import media from "@/styles/media";
 
 const Menu = () => {
   const [open] = useMenu() as MenuContextInterface;
@@ -151,21 +152,20 @@ const Menu = () => {
         <nav className="main-menu">
           <Link href="/junk">
             <a className="menu__item">
-              <span className="menu__item-tiny">always</span>
-              <span className="menu__item-text">bold</span>
+              <span className="menu__item-text">About</span>
             </a>
           </Link>
           <a className="menu__item">
-            <span className="menu__item-text">casual</span>
-            <span className="menu__item-tiny">look</span>
+            <span className="menu__item-text">Blog</span>
           </a>
           <a className="menu__item">
-            <span className="menu__item-tiny">be</span>
-            <span className="menu__item-text">funky</span>
+            <span className="menu__item-text">Case Studies</span>
           </a>
           <a className="menu__item">
-            <span className="menu__item-text">mad</span>
-            <span className="menu__item-tiny">feelings</span>
+            <span className="menu__item-text">Playground</span>
+          </a>
+          <a className="menu__item">
+            <span className="menu__item-text">Series</span>
           </a>
         </nav>
       </div>
@@ -223,36 +223,44 @@ const StyledMenu = styled.div`
       cursor: pointer;
 
       .menu__item {
-        font-size: 10rem;
+        font-size: 8.5rem;
         color: var(--primary-color);
         cursor: pointer;
-        line-height: 1;
-        font-weight: 300;
+        line-height: 1.2;
+        font-weight: 600;
         text-align: right;
         position: relative;
         will-change: opacity, transform;
         z-index: 10;
         text-decoration: none;
-      }
-
-      .menu__item:hover .menu__item-tiny {
-        color: red;
-      }
-
-      .menu__item-tiny {
-        font-size: 1rem;
-      }
-
-      .menu__item:nth-child(odd) {
-        margin-left: -10px;
+        ${media.phablet`font-size: 4.5rem; margin-bottom: 1.5rem`};
+        &::before {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 0;
+          width: 2.5rem;
+          height: 1.5rem;
+          background: var(--primary-color);
+          transform: scale3d(0, 1, 1);
+          transform-origin: 0% 50%;
+          transition: transform 0.3s;
+        }
+        &:hover {
+          &::before {
+            transform: scale3d(1, 1, 1);
+          }
+        }
       }
 
       .menu__item-text {
-        /* color: var(--color-menu); */
+        display: block;
+        transition: transform 0.3s;
+        opacity: 1;
       }
-
+      
       .menu__item:hover .menu__item-text {
-        /* color: red; */
+        transform: translate3d(0.5em, 0, 0);
       }
     }
   }
