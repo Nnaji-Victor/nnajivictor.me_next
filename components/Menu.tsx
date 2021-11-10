@@ -1,4 +1,4 @@
-import media from "@/styles/media";
+import Link from "next/link";
 import { useAnimating } from "@/_hooks/animatingContext";
 import {
   AnimatingContextInterface,
@@ -15,29 +15,124 @@ const Menu = () => {
 
   const memoisedToggle = React.useCallback(
     (action) => {
-      setAnimating(true);
-      let loader = gsap.timeline({ yoyo: true });
+      const overlayPath = document.querySelector(".overlay__path");
+      const menuWrap = document.querySelector(".menu__wrap");
+      const menuItems = gsap.utils.toArray(".menu__item");
 
       if (action === "open") {
         gsap.set(".menu", { autoAlpha: 1 });
-      }
-
-      if (action === "open") {
-        gsap.set(".menu", { css: { zIndex: 20 } });
-        loader.to(".menu-blob", {
-          duration: 0.5,
-          attr: { d: "M0,1005S175,995,500,995s500,5,500,5V0H0Z" },
-          ease: "power2.out",
-          onComplete: () => setAnimating(false),
-        });
+        gsap.set(".menu", { css: { zIndex: 10 } });
+        setAnimating(true);
+        gsap
+          .timeline({
+            onComplete: () => setAnimating(false),
+          })
+          .set(overlayPath, {
+            attr: { d: "M 0 100 V 100 Q 50 100 100 100 V 100 z" },
+          })
+          .to(
+            overlayPath,
+            {
+              duration: 0.8,
+              ease: "power4.in",
+              attr: { d: "M 0 100 V 50 Q 50 0 100 50 V 100 z" },
+            },
+            0
+          )
+          .to(overlayPath, {
+            duration: 0.3,
+            ease: "power2",
+            attr: { d: "M 0 100 V 0 Q 50 0 100 0 V 100 z" },
+            onComplete: () => {
+              menuWrap?.classList.add("menu__wrap--open");
+            },
+          })
+          .set(menuItems, {
+            opacity: 0,
+          })
+          .set(overlayPath, {
+            attr: { d: "M 0 0 V 100 Q 50 100 100 100 V 0 z" },
+          })
+          .to(overlayPath, {
+            duration: 0.3,
+            ease: "power2.in",
+            attr: { d: "M 0 0 V 50 Q 50 0 100 50 V 0 z" },
+          })
+          .addLabel("revealText")
+          .to(
+            overlayPath,
+            {
+              duration: 0.8,
+              ease: "power4",
+              attr: { d: "M 0 0 V 0 Q 50 0 100 0 V 0 z" },
+            },
+            "revealText"
+          )
+          .to(
+            menuItems,
+            {
+              duration: 1.1,
+              ease: "power4",
+              startAt: { y: 150 },
+              y: 0,
+              opacity: 1,
+              stagger: 0.05,
+            },
+            "revealText"
+          );
       } else {
-        loader.to(".menu-blob", {
-          duration: 0.35,
-          attr: { d: "M0 502S175 272 500 272s500 230 500 230V0H0Z" },
-          ease: "power2.in",
-        });
-        gsap.to(".menu", { css: { zIndex: -1 } });
-        setAnimating(false);
+        setAnimating(true);
+        gsap
+          .timeline({
+            onComplete: () => setAnimating(false),
+          })
+          .set(overlayPath, {
+            attr: { d: "M 0 0 V 0 Q 50 0 100 0 V 0 z" },
+          })
+          .to(
+            overlayPath,
+            {
+              duration: 0.8,
+              ease: "power4.in",
+              attr: { d: "M 0 0 V 50 Q 50 100 100 50 V 0 z" },
+            },
+            0
+          )
+          .to(overlayPath, {
+            duration: 0.3,
+            ease: "power2",
+            attr: { d: "M 0 0 V 100 Q 50 100 100 100 V 0 z" },
+            onComplete: () => {
+              menuWrap?.classList.remove("menu__wrap--open");
+            },
+          })
+          // now reveal
+          .set(overlayPath, {
+            attr: { d: "M 0 100 V 0 Q 50 0 100 0 V 100 z" },
+          })
+          .to(overlayPath, {
+            duration: 0.3,
+            ease: "power2.in",
+            attr: { d: "M 0 100 V 50 Q 50 100 100 50 V 100 z" },
+          })
+          .to(overlayPath, {
+            duration: 0.8,
+            ease: "power4",
+            attr: { d: "M 0 100 V 100 Q 50 100 100 100 V 100 z" },
+          })
+          .to(
+            menuItems,
+            {
+              duration: 0.8,
+              ease: "power2.in",
+              y: 100,
+              opacity: 0,
+              stagger: -0.05,
+            },
+            0
+          )
+          .set(".menu", { autoAlpha: 0 })
+          .set(".menu", { css: { zIndex: -1 } });
       }
     },
     [setAnimating]
@@ -52,38 +147,114 @@ const Menu = () => {
   }, [memoisedToggle, open]);
   return (
     <StyledMenu role="navigation" className="menu">
+      <div className="menu__wrap">
+        <nav className="main-menu">
+          <Link href="/junk">
+            <a className="menu__item">
+              <span className="menu__item-tiny">always</span>
+              <span className="menu__item-text">bold</span>
+            </a>
+          </Link>
+          <a className="menu__item">
+            <span className="menu__item-text">casual</span>
+            <span className="menu__item-tiny">look</span>
+          </a>
+          <a className="menu__item">
+            <span className="menu__item-tiny">be</span>
+            <span className="menu__item-text">funky</span>
+          </a>
+          <a className="menu__item">
+            <span className="menu__item-text">mad</span>
+            <span className="menu__item-tiny">feelings</span>
+          </a>
+        </nav>
+      </div>
       <svg
-        viewBox="0 0 1000 1000"
+        className="overlay"
+        width="100%"
+        height="100%"
+        viewBox="0 0 100 100"
         preserveAspectRatio="none"
-        className="menu--item"
       >
         <path
-          className="menu-blob"
-          d="M0,1005S175,995,500,995s500,5,500,5V0H0Z"
-        ></path>
+          className="overlay__path"
+          vectorEffect="non-scaling-stroke"
+          d="M 0 100 V 100 Q 50 100 100 100 V 100 z"
+        />
       </svg>
     </StyledMenu>
   );
 };
 
-const StyledMenu = styled.nav`
+const StyledMenu = styled.div`
+  display: grid;
+  visibility: hidden;
   overflow: hidden;
+  grid-template-columns: 100%;
+  grid-template-rows: 100vh;
+  opacity: 0;
   position: fixed;
   top: 0;
-  width: 33.3333vw;
-  position: absolute;
-  right: 0;
-  height: 100vh;
-  visibility: hidden;
-  ${media.desktop`width: 45vw`}
-  ${media.tablet`width: 100vw; left: 0`}
+  width: 100vw;
 
-  .menu--item {
-    position: absolute;
-    top: 0;
-    transform: rotate(90deg);
-    height: 100vh;
+  .overlay {
+    position: relative;
+    grid-area: 1/1/2/2;
     fill: var(--tertiary-color);
+  }
+
+  .menu__wrap {
+    opacity: 0;
+    &.menu__wrap--open {
+      opacity: 1;
+      height: 100vh;
+      background-color: var(--bg);
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+    .main-menu {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      cursor: pointer;
+
+      .menu__item {
+        font-size: 10rem;
+        color: var(--primary-color);
+        cursor: pointer;
+        line-height: 1;
+        font-weight: 300;
+        text-align: right;
+        position: relative;
+        will-change: opacity, transform;
+        z-index: 10;
+        text-decoration: none;
+      }
+
+      .menu__item:hover .menu__item-tiny {
+        color: red;
+      }
+
+      .menu__item-tiny {
+        font-size: 1rem;
+      }
+
+      .menu__item:nth-child(odd) {
+        margin-left: -10px;
+      }
+
+      .menu__item-text {
+        /* color: var(--color-menu); */
+      }
+
+      .menu__item:hover .menu__item-text {
+        /* color: red; */
+      }
+    }
   }
 `;
 

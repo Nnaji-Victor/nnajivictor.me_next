@@ -9,7 +9,7 @@ const Home: NextPage = () => {
   return (
     <Layout>
       <StyledHome>
-        <Hero />
+        {/* <Hero /> */}
       </StyledHome>
     </Layout>
   );

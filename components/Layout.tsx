@@ -26,12 +26,8 @@ const Layout: React.FC = ({ children }) => {
         <Header />
         <MemoMenu />
         <StyledLayout>{children}</StyledLayout>
-        <Loading />
+        {/* <Loading /> */}
       </div>
-      {/* {isLoading ? (<>div</>) : (
-        <>
-        </>
-      )} */}
     </Fragment>
   );
 };

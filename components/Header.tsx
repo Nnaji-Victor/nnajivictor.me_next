@@ -43,7 +43,7 @@ const Header: React.FC = () => {
           ease: "ease.in",
           stagger: 0.1,
         },
-        "start+=0.25"
+        "start+=0.05"
       );
   }, []);
 
