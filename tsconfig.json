@@ -22,6 +22,7 @@
       "@/assets/*": ["assets/*"],
       "@/images/*": ["images/*"],
       "@/types/*": ["types/*"],
+      "@/sections/*": ["sections/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

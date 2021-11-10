@@ -74,12 +74,13 @@ const HamburgerButton = styled.button`
     position: absolute;
     left: 50%;
     width: 100%;
-    height: 3px;
+    height: 5px;
     background: var(--primary-color);
     z-index: 0;
     transform: rotate(0deg);
     transition: 0.25s ease-in-out;
     left: 0;
+    border-radius: 5px;
 
     &:nth-child(1) {
       top: 0px;
@@ -106,6 +107,7 @@ const HamburgerButton = styled.button`
       width: 0;
       right: 0;
       left: auto;
+      border-radius: 5px;
     }
     &:before {
       z-index: 1;

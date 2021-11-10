@@ -7,6 +7,7 @@ import Loading from "./Loading";
 import { useDarkMode } from "next-dark-mode";
 import { Fragment } from "react";
 import { useMenu, useLoader } from "_hooks/";
+import MemoMenu from "./Menu";
 
 const Layout: React.FC = ({ children }) => {
   const [isLoading] = useLoader() as LoadingContextInterface;
@@ -23,6 +24,7 @@ const Layout: React.FC = ({ children }) => {
       <SkipToContent href="#content">Skip to Content</SkipToContent>
       <div className={`layout ${darkModeActive ? "dark" : "light"}`} id={open ? "stoic" : "fluid"}>
         <Header />
+        <MemoMenu />
         <StyledLayout>{children}</StyledLayout>
         <Loading />
       </div>
@@ -42,6 +44,10 @@ const StyledLayout = styled.main`
   display: grid;
   grid-gap: 0px;
   min-height: 100vh;
+
+  & > *{
+    grid-column: 2/-2;
+  }
 `;
 
 const SkipToContent = styled.a`
