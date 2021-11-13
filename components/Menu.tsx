@@ -9,6 +9,7 @@ import { gsap } from "gsap";
 import React from "react";
 import styled from "styled-components";
 import media from "@/styles/media";
+import CustomLink from "./CustomLink";
 
 const Menu = () => {
   const [open] = useMenu() as MenuContextInterface;
@@ -150,11 +151,9 @@ const Menu = () => {
     <StyledMenu role="navigation" className="menu">
       <div className="menu__wrap">
         <nav className="main-menu">
-          <Link href="/junk">
-            <a className="menu__item">
+          <CustomLink href="/junk" className="menu__item">
               <span className="menu__item-text">About</span>
-            </a>
-          </Link>
+          </CustomLink>
           <a className="menu__item">
             <span className="menu__item-text">Blog</span>
           </a>

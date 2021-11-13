@@ -8,6 +8,7 @@ import { useDarkMode } from "next-dark-mode";
 import { Fragment } from "react";
 import { useMenu, useLoader } from "_hooks/";
 import MemoMenu from "./Menu";
+import PageLoading from "./PageLoading";
 
 const Layout: React.FC = ({ children }) => {
   const [isLoading] = useLoader() as LoadingContextInterface;
@@ -26,7 +27,7 @@ const Layout: React.FC = ({ children }) => {
         <Header />
         <MemoMenu />
         <StyledLayout>{children}</StyledLayout>
-        {/* <Loading /> */}
+        <PageLoading />
       </div>
     </Fragment>
   );

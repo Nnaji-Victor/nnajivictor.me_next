@@ -5,8 +5,10 @@ import Head from "next/head";
 import { LoadingProvider } from "@/_hooks/loadingContext";
 import { AnimatingProvider } from "@/_hooks/animatingContext";
 import { MenuProvider } from "@/_hooks/menuContext";
+import { PageTransition } from "next-page-transitions";
+import PageLoading from "@/components/PageLoading";
 
-function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps, router }: AppProps) {
   return (
     <>
       <Head>
@@ -15,7 +17,15 @@ function App({ Component, pageProps }: AppProps) {
       <LoadingProvider>
         <AnimatingProvider>
           <MenuProvider>
-            <Component {...pageProps} />
+            <PageTransition
+              skipInitialTransition
+              timeout={50}
+              loadingComponent={<PageLoading />}
+              classNames="page-transition"
+              loadingTimeout={0}
+            >
+              <Component {...pageProps} key={router.route} />
+            </PageTransition>
           </MenuProvider>
         </AnimatingProvider>
       </LoadingProvider>
