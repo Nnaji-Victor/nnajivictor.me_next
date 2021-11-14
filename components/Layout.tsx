@@ -2,20 +2,27 @@ import Head from "next/head";
 import styled from "styled-components";
 import FontPreload from "./FontPreload";
 import Header from "./Header";
-import { LoadingContextInterface, MenuContextInterface } from "@/_hooks/hooks.types";
-import Loading from "./Loading";
+import { MenuContextInterface } from "@/_hooks/hooks.types";
 import { useDarkMode } from "next-dark-mode";
-import { Fragment } from "react";
-import { useMenu, useLoader } from "_hooks/";
+import React, { Fragment } from "react";
+import { useMenu } from "_hooks/";
 import MemoMenu from "./Menu";
 import PageLoading from "./PageLoading";
 
 const Layout: React.FC = ({ children }) => {
-  const [isLoading] = useLoader() as LoadingContextInterface;
-
-  const [open, setOpen] = useMenu() as MenuContextInterface;
+  const [open] = useMenu() as MenuContextInterface;
 
   const { darkModeActive } = useDarkMode();
+
+  React.useEffect(() => {
+    if (darkModeActive) {
+      document.body.classList.add("dark");
+      document.body.classList.remove("light");
+    } else {
+      document.body.classList.add("light");
+      document.body.classList.remove("dark");
+    }
+  }, [darkModeActive]);
 
   return (
     <Fragment>
@@ -23,7 +30,7 @@ const Layout: React.FC = ({ children }) => {
         <FontPreload />
       </Head>
       <SkipToContent href="#content">Skip to Content</SkipToContent>
-      <div className={`layout ${darkModeActive ? "dark" : "light"}`} id={open ? "stoic" : "fluid"}>
+      <div id={open ? "stoic" : "fluid"}>
         <Header />
         <MemoMenu />
         <StyledLayout>{children}</StyledLayout>
@@ -40,9 +47,9 @@ const StyledLayout = styled.main`
   grid-template-columns: repeat(var(--cols), var(--gridSize));
   display: grid;
   grid-gap: 0px;
-  min-height: 100vh;
+  /* min-height: 100vh; */
 
-  & > *{
+  & > * {
     grid-column: 2/-2;
   }
 `;

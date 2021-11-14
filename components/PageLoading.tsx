@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 
 const PageLoading = () => {
-  console.clear();
+  // console.clear();
   React.useEffect(() => {
     const mask = ".js-mask";
     const slices = gsap.utils.toArray(".js-mask__slice");

@@ -136,4 +136,5 @@ const StyledToggle = styled.div`
   }
 `;
 
-export default Header;
+const MemoHeader = React.memo(Header);
+export default MemoHeader;

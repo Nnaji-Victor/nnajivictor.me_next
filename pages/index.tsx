@@ -1,28 +1,42 @@
-import CustomLink from "@/components/CustomLink";
 import Layout from "@/components/Layout";
+import Featured from "@/sections/Featured";
 import Hero from "@/sections/Hero";
-import theme from "@/styles/theme";
-import type { NextPage } from "next";
-import Link from "next/link";
 import React from "react";
-import styled from "styled-components";
-import _config from "_config";
+import { gsap } from "gsap";
+import ScrollToPlugin from "gsap/dist/ScrollToPlugin";
+import { client } from "lib/apollo";
+import featuredQuery from "lib/featuredQuery";
+import { GetStaticProps, NextPage } from "next";
+import { FeaturedInterface } from "@/types/featuredTypes";
 
-const Home: NextPage = () => {
+
+interface Props {
+  featured: FeaturedInterface[]
+}
+const Home: NextPage<Props> = ({ featured }) => {
+  
+  React.useEffect(() => {
+    gsap.registerPlugin(ScrollToPlugin);
+  }, []);
+
   return (
     <Layout>
-      <StyledHome>
-        <Hero />
-        <CustomLink href="/junk">
-          GO TO JUNK
-        </CustomLink>
-      </StyledHome>
+      <Hero />
+      <Featured featured={featured} />
     </Layout>
   );
 };
 
-const StyledHome = styled.section`
-  
-`;
+export const getStaticProps: GetStaticProps = async () => {
+  const result = await client.query({
+    query: featuredQuery,
+  });
+
+  return {
+    props: {
+      featured: result.data.caseStudies.edges,
+    },
+  };
+};
 
 export default Home;
