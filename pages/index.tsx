@@ -1,21 +1,42 @@
 import Layout from "@/components/Layout";
-import theme from "@/styles/theme";
-import type { NextPage } from "next";
-import styled from "styled-components";
-import _config from "_config";
+import Featured from "@/sections/Featured";
+import Hero from "@/sections/Hero";
+import React from "react";
+import { gsap } from "gsap";
+import ScrollToPlugin from "gsap/dist/ScrollToPlugin";
+import { client } from "lib/apollo";
+import featuredQuery from "lib/featuredQuery";
+import { GetStaticProps, NextPage } from "next";
+import { FeaturedInterface } from "@/types/featuredTypes";
 
-const Home: NextPage = () => {
+
+interface Props {
+  featured: FeaturedInterface[]
+}
+const Home: NextPage<Props> = ({ featured }) => {
+  
+  React.useEffect(() => {
+    gsap.registerPlugin(ScrollToPlugin);
+  }, []);
+
   return (
     <Layout>
-      <StyledHome>hello {_config.name}. The journey begins</StyledHome>
+      <Hero />
+      <Featured featured={featured} />
     </Layout>
   );
 };
 
-const StyledHome = styled.section`
-  font-size: 10rem;
-  font-weight: 400;
-  /* font-family: ${theme.fonts.wotfard}; */
-`;
+export const getStaticProps: GetStaticProps = async () => {
+  const result = await client.query({
+    query: featuredQuery,
+  });
+
+  return {
+    props: {
+      featured: result.data.caseStudies.edges,
+    },
+  };
+};
 
 export default Home;

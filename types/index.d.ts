@@ -1,0 +1,5 @@
+declare module 'next-page-transitions'
+declare module '*jpg'
+declare module '*png'
+declare module '*json'
+declare module '*ico'

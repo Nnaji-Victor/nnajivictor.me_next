@@ -17,6 +17,12 @@
     "paths": {
       "@/styles/*": ["styles/*"],
       "@/components/*": ["components/*"],
+      "@/_hooks/*": ["_hooks/*"],
+      "@/_utils/*": ["_utils/*"],
+      "@/assets/*": ["assets/*"],
+      "@/images/*": ["images/*"],
+      "@/types/*": ["types/*"],
+      "@/sections/*": ["sections/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

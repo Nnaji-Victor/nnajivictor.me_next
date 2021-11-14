@@ -102,15 +102,35 @@ body.dark{
 
 body{
   font-family: "Wotfard", 'Futura', '-apple-system', sans-serif;
-  background-color: var(--bg);
-  color: var(--primary-color);
   margin: 0;
   width: 100%;
   min-height: 100%;
+  font-kerning: auto;
+  text-rendering: optimizelegibility;
+  background-color: var(--bg);
+  color: var(--primary-color);
   overflow-x: hidden;
   line-height: 1.3;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  font-kerning: auto;
-  text-rendering: optimizelegibility;
+  -moz-font-feature-settings: "kern", "liga", "clig", "calt";
+  -ms-font-feature-settings: "kern", "liga", "clig", "calt";
+  -webkit-font-feature-settings: "kern", "liga", "clig", "calt";
+  font-feature-settings: "kern", "liga", "clig", "calt";
+}
+
+.layout{
+  background-color: var(--bg);
+  color: var(--primary-color);
+}
+
+#stoic{
+  overflow-y: hidden;
+  height: 100vh;
+}
+
+
+.grid{
+  grid-template-columns: repeat(var(--cols), var(--gridSize));
+  display: grid;
 }
